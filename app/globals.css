@@ -1,0 +1,89 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:         #f7f5f0;
+  --card:       #ffffff;
+  --dark:       #1a1a2e;
+  --mint:       #4ecba1;
+  --mint2:      #2a9d72;
+  --mint-light: #e8f8f2;
+  --peach:      #ff8a65;
+  --peach2:     #f4714e;
+  --peach-light:#fff0eb;
+  --yellow:     #ffd54f;
+  --yellow-light:#fffde7;
+  --lilac:      #b388ff;
+  --lilac-light:#f3eeff;
+  --sky:        #64b5f6;
+  --sky-light:  #e3f2fd;
+  --rose:       #f06292;
+  --rose-light: #fce4ec;
+  --muted:      #8a8a9a;
+  --border:     #ebebf0;
+  --warm:       #f2ede4;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input, textarea, button, select {
+  font-family: inherit;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+/* Animações */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: translateY(0); }
+  40%           { transform: translateY(-6px); }
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+@keyframes blobFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(18px, -18px) scale(1.04); }
+}
+
+@keyframes logoPulse {
+  0%, 100% { filter: drop-shadow(0 0 20px rgba(78,203,161,0.4)); }
+  50%      { filter: drop-shadow(0 0 40px rgba(78,203,161,0.7)); }
+}
+
+/* PWA safe areas */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
