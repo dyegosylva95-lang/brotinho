@@ -1213,25 +1213,47 @@ function ChatScreen({profile,mode}){
 // ═══════════════════════════════════════════════════════════
 function calcGestWeekFromDPP(dpp){
   if(!dpp)return null;
-  const conc=new Date(dpp);
+  const dppDate=new Date(dpp);
+  if(isNaN(dppDate.getTime()))return null;
+  const conc=new Date(dppDate);
   conc.setDate(conc.getDate()-280);
-  const w=Math.round((new Date()-conc)/(1000*60*60*24*7));
+  const now=new Date();
+  const w=Math.round((now.getTime()-conc.getTime())/(1000*60*60*24*7));
   return Math.max(1,Math.min(40,w));
 }
 
 function calcBabyWeeksFromBirth(birth){
   if(!birth)return null;
-  const b=new Date(birth);
-  const w=Math.floor((new Date()-b)/(1000*60*60*24*7));
-  return Math.max(0,w);
+  // Garante que a data é interpretada corretamente em qualquer formato
+  const parts = birth.split('-');
+  if(parts.length!==3)return null;
+  const year=parseInt(parts[0]);
+  const month=parseInt(parts[1])-1;
+  const day=parseInt(parts[2]);
+  // Valida o ano — rejeita anos antes de 2000 ou depois do ano atual
+  const currentYear=new Date().getFullYear();
+  if(year<2000||year>currentYear)return null;
+  const b=new Date(year,month,day);
+  if(isNaN(b.getTime()))return null;
+  const now=new Date();
+  if(b>now)return null; // Data futura inválida
+  const diffMs=now.getTime()-b.getTime();
+  const w=Math.floor(diffMs/(1000*60*60*24*7));
+  return Math.max(0,Math.min(520,w)); // máx 10 anos
 }
 
 function formatBabyAge(weeks){
   if(weeks===null||weeks===undefined)return null;
+  if(weeks===0)return "recém-nascido";
   if(weeks<4)return `${weeks} semana${weeks!==1?"s":""}`;
-  if(weeks<52)return `${weeks} sem. (${Math.floor(weeks/4)} ${Math.floor(weeks/4)===1?"mês":"meses"})`;
+  const months=Math.floor(weeks/4);
+  if(weeks<52){
+    return `${months} ${months===1?"mês":"meses"} (${weeks} semanas)`;
+  }
   const yrs=Math.floor(weeks/52);
-  return `${yrs} ano${yrs!==1?"s":""}`;
+  const remMonths=Math.floor((weeks%52)/4);
+  if(remMonths===0)return `${yrs} ano${yrs!==1?"s":""}`;
+  return `${yrs} ano${yrs!==1?"s":""} e ${remMonths} ${remMonths===1?"mês":"meses"}`;
 }
 function MainApp({user,onLogout}){
   const [screen,setScreen]=useState("home");
@@ -1352,4 +1374,3 @@ export default function Brotinho(){
     </div>
   );
 }
- 
