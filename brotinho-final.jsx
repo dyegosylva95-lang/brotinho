@@ -397,14 +397,18 @@ function PlansScreen({onClose,onSuccess,currentPlan="free"}){
         setLoading(false);
         return;
       }
-      const stripe=window.Stripe(STRIPE_CONFIG.publishableKey);
-      await stripe.redirectToCheckout({
-        lineItems:[{price: STRIPE_CONFIG.priceId, quantity:1}],
-        mode:"subscription",
-        successUrl: STRIPE_CONFIG.successUrl,
-        cancelUrl:  STRIPE_CONFIG.cancelUrl,
-        locale:"pt-BR",
+      const res=await fetch("/api/create-checkout-session",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          priceId:STRIPE_CONFIG.priceId,
+          userEmail:"usuario@brotinho.app",
+          userId:"guest",
+        }),
       });
+      const data=await res.json();
+      if(data.url)window.location.href=data.url;
+      else throw new Error(data.error);
     }catch(err){
       console.error("Stripe error:",err);
       alert("Erro ao iniciar pagamento. Tente novamente.");
