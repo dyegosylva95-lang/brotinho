@@ -1,16 +1,15 @@
-﻿"use client";
+"use client";
 import { useState, useEffect, useRef } from "react";
 
 // ═══════════════════════════════════════════════════════════
 //  CONFIG STRIPE — substitua com suas chaves reais
 // ═══════════════════════════════════════════════════════════
 const STRIPE_CONFIG = {
-  publishableKey: "pk_test_SUA_CHAVE_AQUI", // <-- sua chave pública Stripe
-  priceId: "price_SEU_PRICE_ID_AQUI",        // <-- price ID do produto R$29,90/mês
+  publishableKey: "pk_test_51TXl8iKDwq0ZSRNgHgGuU8WrTHOA5pBi9je4HqUfZBiAl6M3XlBoiIG7jCTTqHu5oBM8OuRjsta57UzBoupqyeMS00RyOVStE1", // <-- sua chave pública Stripe
+  priceId: "price_1TYOzEKDwq0ZSRNgBsQakcfj",        // <-- price ID do produto R$29,90/mês
   successUrl: "https://brotinho-azure.vercel.app/?stripe=success",
   cancelUrl:  "https://brotinho-azure.vercel.app/?stripe=cancel",
 };
-
 // ═══════════════════════════════════════════════════════════
 //  PLANO FREEMIUM — o que é bloqueado no gratuito
 // ═══════════════════════════════════════════════════════════
@@ -2006,6 +2005,4 @@ export default function Brotinho(){
       {flows[phase]||flows.welcome}
     </div>
   );
-}  
- 
- 
+}
